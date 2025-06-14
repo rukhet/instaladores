@@ -1,0 +1,1 @@
+<?php session_start(); if (!isset($_SESSION['usuario'])) { header('Location: /instaladores/login.php'); exit; } function es_admin() { return $_SESSION['rol'] === 'admin'; } ?>
