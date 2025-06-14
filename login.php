@@ -2,6 +2,13 @@
 session_start();
 include 'includes/db.php';
 
+// Si ya está logueado, redirigir al panel
+if (isset($_SESSION['usuario'])) {
+    header("Location: admin/dashboard.php");
+    exit;
+}
+
+$error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
     $clave = $_POST['clave'];
@@ -9,23 +16,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare("SELECT * FROM usuarios WHERE usuario = ?");
     $stmt->bind_param("s", $usuario);
     $stmt->execute();
-    $res = $stmt->get_result();
+    $resultado = $stmt->get_result();
 
-    if ($res->num_rows === 1) {
-        $user = $res->fetch_assoc();
-        if (password_verify($clave, $user['clave'])) {
-            $_SESSION['usuario'] = $user['usuario'];
-            $_SESSION['rol'] = $user['rol'];
+    if ($resultado->num_rows === 1) {
+        $usuario_data = $resultado->fetch_assoc();
+        if (password_verify($clave, $usuario_data['clave'])) {
+            $_SESSION['usuario'] = $usuario_data['usuario'];
+            $_SESSION['rol'] = $usuario_data['rol'];
             header("Location: admin/dashboard.php");
             exit;
         }
     }
-    $error = "Credenciales inválidas";
+
+    $error = "Usuario o contraseña incorrectos";
 }
 ?>
-<form method="POST">
-    Usuario: <input name="usuario"><br>
-    Clave: <input name="clave" type="password"><br>
-    <button type="submit">Ingresar</button>
-    <?php if (isset($error)) echo "<p>$error</p>"; ?>
-</form>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="css/estilos.css"> <!-- Ruta al CSS -->
+</head>
+<body>
+    <h2>Iniciar sesión</h2>
+    <?php if ($error): ?>
+        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+    <form method="POST">
+        Usuario: <input type="text" name="usuario" required><br>
+        Contraseña: <input type="password" name="clave" required><br>
+        <button type="submit">Ingresar</button>
+    </form>
+</body>
+</html>
