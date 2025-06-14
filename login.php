@@ -35,17 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    
+      <link rel="stylesheet" href="/css/estilos.css">
+      
     <meta charset="UTF-8">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="css/estilos.css"> <!-- Ruta al CSS -->
+
+  
+
 </head>
-<body>
+<body class="login-container">
     <h2>Iniciar sesión</h2>
     <?php if ($error): ?>
         <p style="color:red;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
-    <form method="POST">
+    <form class="login-container" method="POST">
         Usuario: <input type="text" name="usuario" required><br>
         Contraseña: <input type="password" name="clave" required><br>
         <button type="submit">Ingresar</button>

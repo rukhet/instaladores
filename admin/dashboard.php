@@ -4,6 +4,15 @@ include '../includes/db.php';
 
 $result = $conn->query("SELECT * FROM programas ORDER BY fecha_subida DESC");
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="css/estilos.css"> <!-- Ruta al CSS -->
+</head>
 <h2>Panel de Control</h2>
 <?php if (es_admin()): ?>
 <a href="subir.php">Subir instalador</a>
