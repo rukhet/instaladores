@@ -10,8 +10,8 @@ $result = $conn->query("SELECT * FROM programas ORDER BY fecha_subida DESC");
 <head>
     
     <meta charset="UTF-8">
-    <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="css/estilos.css"> <!-- Ruta al CSS -->
+    <title>dashboard</title>
+    <link rel="stylesheet" href="./css/estilos.css">
 </head>
 <h2>Panel de Control</h2>
 <?php if (es_admin()): ?>

@@ -88,8 +88,12 @@ img {
 }
 
 /* --- Login específico --- */
+
 .login-container {
-    background-color: #1b10b3;
+    background-image: url('./css/imagenes/windows_xp.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 2rem;
     border-radius: 12px;
 }
