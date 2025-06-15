@@ -34,24 +34,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+    
 <head>
-      <link rel="stylesheet" href="./css/estilos.css">
-      
+      <link rel="stylesheet" href="./css/estilos-login.css">
+    
+     
     <meta charset="UTF-8">
     <title>Iniciar sesión</title>
 
   
 
 </head>
-<body class="login-container">
-    <h2>Iniciar sesión</h2>
+<body class="body-login" >
+    
+    
     <?php if ($error): ?>
         <p style="color:red;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
     <form class="login-container" method="POST">
+        <h2>Iniciar sesión</h2>
+         <div class="form-group">
         Usuario: <input type="text" name="usuario" required><br>
+        </div>
+         <div class="form-group">
         Contraseña: <input type="password" name="clave" required><br>
-        <button type="submit">Ingresar</button>
+        </div>
+        <button class="login-button" type="submit">Ingresar</button>
     </form>
+   
 </body>
 </html>
