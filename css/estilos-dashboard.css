@@ -1,40 +1,24 @@
-* {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+.parent {
+    background-color: blue;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
 }
-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-h1 {
-    margin: 20px;
-}
-nav{
-    width: 100%; /* Ancho completo del contenedor */   
-    background-color: #3498db;
-}
-nav ul {
-    display: flex; /* Activar Flexbox */
-    list-style-type: none; /* Quitar estilos de lista */
-    padding: 0; /* Quitar padding predeterminado */
-    margin: 0; /* Quitar margen predeterminado */
     
+.div1 {
+    grid-column: span 5 / span 5;
 }
-nav li {
-    flex-grow: 1; /* Crecer para ocupar el espacio disponible */
-    text-align: center; /* Centrar el texto */
+
+.div2 {
+    grid-column: span 4 / span 4;
+    grid-row: span 4 / span 4;
+    grid-row-start: 2;
 }
-nav a {
-    display: block; /* Hacer que el enlace ocupe todo el espacio del li */
-    margin:0;
-    color: white;
-    padding: 10px; /* Espaciado para una mejor visualización */
-    text-decoration: none; /* Quitar el subrayado del enlace */
-    border: 1px solid white;
+
+.div3 {
+    grid-row: span 4 / span 4;
+    grid-column-start: 5;
+    grid-row-start: 2;
 }
-nav a:hover {
-    background-color: #217dbb;
-}
+        
