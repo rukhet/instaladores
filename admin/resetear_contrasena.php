@@ -2,7 +2,7 @@
 require '../includes/auth.php';
 require '../includes/db.php';
 
-if (!es_admin()) {
+if (!es_admin()|| es_root()) {
     header("Location: dashboard.php");
     exit;
 }
@@ -36,4 +36,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Nueva contraseña: <input type="password" name="nueva_clave" required><br>
     <button type="submit">Guardar</button>
 </form>
-<a href="usuarios.php">Cancelar</a>
+

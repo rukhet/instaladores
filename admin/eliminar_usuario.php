@@ -2,7 +2,7 @@
 require '../includes/auth.php';
 require '../includes/db.php';
 
-if (!es_admin()) {
+if (!es_admin()|| es_root()) {
     header("Location: dashboard.php");
     exit;
 }

@@ -14,7 +14,7 @@
     <nav>
       <ul>
         <li><a href="dashboard.php"><i class="fas fa-home"></i> Inicio</a></li>
-        <?php if (es_admin()): ?>
+       <?php if (es_admin() || es_root()): ?>
         <li><a href="subir.php"><i class="fas fa-upload"></i> Subir instalador</a></li>
         <li><a href="usuarios.php"><i class="fas fa-users-cog"></i> Administrar usuarios</a></li>
         <?php endif; ?>
