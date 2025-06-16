@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
-
+ <?php include '../estructura/header.php'; ?>
 <h2>Resetear contraseña para <?= htmlspecialchars($usuario['usuario']) ?></h2>
 <form method="POST">
     Nueva contraseña: <input type="password" name="nueva_clave" required><br>
