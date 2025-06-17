@@ -19,6 +19,15 @@
         <li><a href="usuarios.php"><i class="fas fa-users-cog"></i> Administrar usuarios</a></li>
         <?php endif; ?>
         <li><a href="/instaladores/logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+        
+    
+    <li><a  aria-hidden="true"><i class="fa fa-user-circle-o"></i>Usuario:<?= htmlspecialchars($_SESSION['usuario']) ?></a></li>
+    <li><a ><i class="fas fa-home"></i>Rol: <?= htmlspecialchars($_SESSION['rol']) ?></a></li>
+    
+  
       </ul>
+      <?php if (isset($_SESSION['usuario'], $_SESSION['rol'])): ?>
+  
+<?php endif; ?>
     </nav>
   </div>

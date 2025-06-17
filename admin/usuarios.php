@@ -1,7 +1,9 @@
 <?php
 include '../includes/auth.php';
 include '../includes/db.php';
-if (!es_admin()|| es_root()) exit('Acceso denegado');
+if (!es_admin() && !es_root()) exit('Acceso denegado');
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
