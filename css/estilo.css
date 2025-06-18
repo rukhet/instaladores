@@ -414,3 +414,15 @@ button[type="submit"]:hover::after {
         margin-top: 1rem;
     }
 }
+.btn-compartir {
+    background-color: #3a30c4;
+    color: rgb(167, 26, 26);
+    padding: 6px 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-left: 4px;
+}
+
+.btn-compartir:hover {
+    background-color: #45a049;
+}

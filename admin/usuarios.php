@@ -1,20 +1,38 @@
 <?php
 include '../includes/auth.php';
 include '../includes/db.php';
+
 if (!es_admin() && !es_root()) exit('Acceso denegado');
 
+$usuario_logueado = $_SESSION['usuario'];
 
+// Roles permitidos para asignación
+$rolPermitido = ['usuario'];
+if (es_root()) {
+    $rolPermitido = ['usuario', 'admin', 'root'];
+}
 
+// Procesar nuevo usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = $_POST['usuario'];
+    $usuario = trim($_POST['usuario']);
     $clave = password_hash($_POST['clave'], PASSWORD_DEFAULT);
     $rol = $_POST['rol'];
+
+    if (!in_array($rol, $rolPermitido)) {
+        exit('No tienes permiso para asignar ese rol.');
+    }
+
     $stmt = $conn->prepare("INSERT INTO usuarios (usuario, clave, rol) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $usuario, $clave, $rol);
     $stmt->execute();
 }
 
-$usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios");
+// Listar usuarios
+if (es_root()) {
+    $usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios");
+} else {
+    $usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios WHERE rol != 'root'");
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,10 +40,10 @@ $usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Administrar Usuarios</title>
+    <link rel="stylesheet" href="../css/estilo.css">
     <style>
-        /* Puedes poner aquí tus estilos o linkear el CSS que tienes */
-        busquedaUsuario {
-            margin-bottom: 15px;
+        #busquedaUsuario {
+            margin: 15px 0;
             padding: 8px;
             font-size: 1rem;
             width: 100%;
@@ -36,7 +54,7 @@ $usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios");
     </style>
 </head>
 <body>
-    <?php include '../estructura/header.php'; ?>
+<?php include '../estructura/header.php'; ?>
 
     <form method="POST" class="form-horizontal">
         <div class="form-group">
@@ -52,15 +70,15 @@ $usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios");
         <div class="form-group">
             <label for="rol">Rol:</label>
             <select name="rol" id="rol">
-                <option value="usuario">Usuario</option>
-                <option value="admin">Admin</option>
+                <?php foreach ($rolPermitido as $rol): ?>
+                    <option value="<?= $rol ?>"><?= ucfirst($rol) ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
 
         <button type="submit">Agregar</button>
     </form>
 
-    <!-- Input búsqueda -->
     <input type="text" id="busquedaUsuario" placeholder="Buscar usuario por nombre..." />
 
     <table id="tablaUsuarios">
@@ -79,11 +97,15 @@ $usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios");
                 <td><?= htmlspecialchars($u['usuario']) ?></td>
                 <td><?= htmlspecialchars($u['rol']) ?></td>
                 <td class="acciones">
-                    <?php if (es_admin()|| es_root()): ?>
+                    <?php
+                        $esPropio = $u['usuario'] === $usuario_logueado;
+                        $esEditable = (es_root() || (es_admin() && $u['rol'] === 'usuario')) && !$esPropio;
+                    ?>
+                    <?php if ($esEditable): ?>
                         <a class="btn-editar" href="editar_usuario.php?id=<?= $u['id'] ?>">Editar</a>
-                        <?php if ($u['rol'] === 'usuario'): ?>
-                            <a class="btn-eliminar" href="eliminar_usuario.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
-                        <?php endif; ?>
+                        <a class="btn-eliminar" href="eliminar_usuario.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
+                        <a class="btn-descargar" href="resetear_contrasena.php?id=<?= $u['id'] ?>">Resetear contraseña</a>
+                    <?php elseif (!$esPropio): ?>
                         <a class="btn-descargar" href="resetear_contrasena.php?id=<?= $u['id'] ?>">Resetear contraseña</a>
                     <?php else: ?>
                         -
@@ -103,7 +125,7 @@ $usuarios = $conn->query("SELECT id, usuario, rol FROM usuarios");
             const filas = tabla.getElementsByTagName('tr');
 
             for (let i = 0; i < filas.length; i++) {
-                const celdaUsuario = filas[i].getElementsByTagName('td')[1]; // columna usuario
+                const celdaUsuario = filas[i].getElementsByTagName('td')[1];
                 if (celdaUsuario) {
                     const textoUsuario = celdaUsuario.textContent.toLowerCase();
                     filas[i].style.display = textoUsuario.includes(filtro) ? '' : 'none';

@@ -30,15 +30,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nueva_clave = password_hash($_POST['nueva_clave'], PASSWORD_DEFAULT);
     $stmt = $conn->prepare("UPDATE usuarios SET clave = ? WHERE id = ?");
     $stmt->bind_param("si", $nueva_clave, $id);
-    $stmt->execute();
-    echo "<p>Contraseña actualizada correctamente.</p>";
-    echo '<a href="usuarios.php">Volver a la lista de usuarios</a>';
-    exit;
+   if ($stmt->execute()) {
+            header("Location: usuarios.php");
+            exit;
+        } else {
+            $error = "Error al actualizar contraseña.";
+        }
 }
 ?>
 <?php include '../estructura/header.php'; ?>
 <h2>Resetear contraseña para <?= htmlspecialchars($usuario['usuario']) ?></h2>
 <form method="POST">
     Nueva contraseña: <input type="password" name="nueva_clave" required><br>
-    <button type="submit">Guardar</button>
+    <button type="submit" " onclick="return confirm('Clave cambiada con exito')">Guardar</button>
 </form>

@@ -43,7 +43,8 @@ $result = $conn->query("SELECT * FROM programas ORDER BY fecha_subida DESC");
                                     <?php if (es_admin()|| es_root()): ?>
                                         <a class="btn-editar" href="editar_programa.php?id=<?= $row['id'] ?>">Editar</a>
                                         <a class="btn-eliminar" href="eliminar.php?id=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar este programa?')">Eliminar</a>
-                                    <?php endif; ?>
+                           <a class="btn-compartir" href="compartir.php?id=<?= $row['id'] ?>"><i class="fas fa-share-alt"></i> Compartir</a>
+                                        <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
