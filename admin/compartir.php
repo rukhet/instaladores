@@ -22,7 +22,7 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $res = $stmt->get_result();
 
-if ($res->num_rows === 0) {
+if ($res->num_rows === 0) { !==
     exit("Programa no encontrado.");
 }
 
