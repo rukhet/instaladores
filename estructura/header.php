@@ -12,10 +12,10 @@
     <h1>JCL</h1>
     <nav>
       <ul>
-        <li><a href="dashboard.php"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a href="../admin/dashboard.php"><i class="fas fa-home"></i> Inicio</a></li>
         <?php if (function_exists('es_admin') && function_exists('es_root')): ?>
           <?php if (es_admin() || es_root()): ?>
-            <li><a href="subir.php"><i class="fas fa-upload"></i> Subir instalador</a></li>
+            <li><a href="../admin/subir.php"><i class="fas fa-upload"></i> Subir instalador</a></li>
             <li><a href="../controllers/usuario.php"><i class="fas fa-users-cog"></i> Administrar usuarios</a></li>
           <?php endif; ?>
         <?php endif; ?>
